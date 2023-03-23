@@ -19,19 +19,22 @@ public class Expert {
     @Column(nullable = false, name = "isAvailable")
     private boolean isAvailable;
 
-    @ManyToOne//expert to category - many to one
-    @JoinColumn(name = "category_categoryId")
-    private Category category;
+//    @ManyToOne//expert to category - many to one
+//    @JoinColumn(name = "category_categoryId")
+//    private Category category;
+
+    @Column
+    private Integer categoryId;
 
     @OneToMany(mappedBy = "category")//expert to ticket - one to many
     private List<Ticket> tickets;
 
-    public Expert(Long expertId, String phoneNumber, String location, boolean isAvailable, Category category, List<Ticket> tickets) {
+    public Expert(Long expertId, String phoneNumber, String location, Integer categoryId, List<Ticket> tickets) {
         this.expertId = expertId;
         this.phoneNumber = phoneNumber;
         this.location = location;
-        this.isAvailable = isAvailable;
-        this.category = category;
+        this.isAvailable = true;
+        this.categoryId = categoryId;
         this.tickets = tickets;
     }
 
@@ -69,12 +72,12 @@ public class Expert {
         isAvailable = available;
     }
 
-    public Category getCategory() {
-        return category;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public List<Ticket> getTickets() {
@@ -92,7 +95,7 @@ public class Expert {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", location='" + location + '\'' +
                 ", isAvailable=" + isAvailable +
-                ", category=" + category +
+                ", categoryId=" + categoryId +
                 ", tickets=" + tickets +
                 '}';
     }

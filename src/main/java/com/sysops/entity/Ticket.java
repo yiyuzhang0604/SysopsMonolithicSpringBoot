@@ -14,18 +14,16 @@ public class Ticket {
     @Column(name = "createdDate")
     private Date createdDate;
 
-    @ManyToOne//expert to category - many to one
-    @JoinColumn(name = "category_categoryId")
-    private Category category;
-//    @Column(name = "categoryId")
-//    private Integer categoryId;
+//    @ManyToOne//expert to category - many to one
+//    @JoinColumn(name = "category_categoryId")
+//    private Category category;
+    @Column(name = "categoryId")
+    private Integer categoryId;
 
     @ManyToOne//ticket to expert - many to one
     @JoinColumn(name = "expert_expertId")
     private Expert expert;
 
-//    @Column(name = "expertId")
-//    private Long expertId;
 
     @Column(nullable = false, name = "resolved")
     private boolean resolved;
@@ -36,10 +34,10 @@ public class Ticket {
     @Column(nullable = false, name = "location")
     private String location;
 
-    public Ticket(Long ticketId, Ticket ticket, Category category, Expert expert, boolean resolved, String description, String location) {
+    public Ticket(Long ticketId, Ticket ticket, Integer categoryId, Expert expert, boolean resolved, String description, String location) {
         this.ticketId = ticketId;
         this.createdDate = Calendar.getInstance().getTime();
-        this.category = category;
+        this.categoryId = categoryId;
         this.expert = expert;
         this.resolved = resolved;
         this.description = description;
@@ -64,12 +62,12 @@ public class Ticket {
     }
 
 
-    public Category getCategory() {
-        return category;
+    public Integer getCategory() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Expert getExpert() {
@@ -109,7 +107,7 @@ public class Ticket {
         return "Ticket{" +
                 "ticketId=" + ticketId +
                 ", createdDate=" + createdDate +
-                ", category=" + category +
+                ", categoryId=" + categoryId +
                 ", expert=" + expert +
                 ", resolved=" + resolved +
                 ", description='" + description + '\'' +
