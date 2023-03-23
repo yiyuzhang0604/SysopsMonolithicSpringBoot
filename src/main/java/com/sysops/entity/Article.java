@@ -24,20 +24,23 @@ public class Article {
     @Column(name = "content")
     private String content;
 
-    @ManyToOne//expert to category - many to one
-    @JoinColumn(name = "category_categoryId")
-    private Category category;
+//    @ManyToOne//expert to category - many to one
+//    @JoinColumn(name = "category_categoryId")
+//    private Category category;
+
+    @Column(name = "categoryId")
+    private Integer categoryId;
 
     //keyword?
     @Column(name = "createdDate")
     private Date createdDate;
 
-    public Article(Long articleId, Expert expert, String title, String content, Category category) {
+    public Article(Long articleId, Expert expert, String title, String content, Integer categoryId) {
         this.articleId = articleId;
         this.expert = expert;
         this.title = title;
         this.content = content;
-        this.category = category;
+        this.categoryId = categoryId;
         this.createdDate = Calendar.getInstance().getTime();
     }
 
@@ -75,12 +78,12 @@ public class Article {
         this.content = content;
     }
 
-    public Category getCategory() {
-        return category;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Date getCreatedDate() {
@@ -98,7 +101,7 @@ public class Article {
                 ", expert=" + expert +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", category=" + category +
+                ", categoryId=" + categoryId +
                 ", createdDate=" + createdDate +
                 '}';
     }
