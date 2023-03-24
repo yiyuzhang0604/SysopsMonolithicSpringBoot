@@ -21,8 +21,12 @@ public class Ticket {
     private Integer categoryId;
 
     @ManyToOne//ticket to expert - many to one
-    @JoinColumn(name = "expert_expertId")
+    @JoinColumn(name = "expert_id")
     private Expert expert;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
 
     @Column(nullable = false, name = "resolved")

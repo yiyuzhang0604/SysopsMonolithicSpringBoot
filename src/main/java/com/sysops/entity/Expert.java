@@ -26,7 +26,7 @@ public class Expert {
     @Column
     private Integer categoryId;
 
-    @OneToMany(mappedBy = "category")//expert to ticket - one to many
+    @OneToMany(mappedBy = "expert")//expert to ticket - one to many
     private List<Ticket> tickets;
 
     public Expert(Long expertId, String phoneNumber, String location, Integer categoryId, List<Ticket> tickets) {

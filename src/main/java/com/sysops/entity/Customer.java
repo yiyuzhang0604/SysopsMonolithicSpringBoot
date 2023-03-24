@@ -23,7 +23,7 @@ public class Customer {
     @Column(nullable = false, name = "preferEmail")
     private boolean preferEmail;//prefer email notification or text message
 
-    @OneToMany(mappedBy = "category")//customer to ticket - one to many
+    @OneToMany(mappedBy = "customer")//customer to ticket - one to many
     private List<Ticket> tickets;
 
     public Customer(Long customerId, String phoneNumber, String email, boolean preferEmail, List<Ticket> tickets) {

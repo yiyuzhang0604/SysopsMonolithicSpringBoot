@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ArticleDao extends CrudRepository<Article, Long> {
-    @Query("SELECT article FROM Article a WHERE a.title LIKE %:keyword% OR a.content LIKE %:keyword%")
+    @Query("SELECT a FROM Article a WHERE a.title LIKE %:keyword% OR a.content LIKE %:keyword%")
     List<Article> findByKeyword(@Param("keyword") String keyword);
 }
