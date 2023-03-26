@@ -1,7 +1,8 @@
-package com.sysops.service;
+package com.sysops.service.Implementation;
 
 import java.util.List;
 
+import com.sysops.service.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

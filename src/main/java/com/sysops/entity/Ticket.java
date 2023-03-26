@@ -21,8 +21,12 @@ public class Ticket {
     private Integer categoryId;
 
     @ManyToOne//ticket to expert - many to one
-    @JoinColumn(name = "expert_expertId")
+    @JoinColumn(name = "expert_id")
     private Expert expert;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
 
     @Column(nullable = false, name = "resolved")
@@ -34,15 +38,16 @@ public class Ticket {
     @Column(nullable = false, name = "location")
     private String location;
 
-    public Ticket(Long ticketId, Ticket ticket, Integer categoryId, Expert expert, boolean resolved, String description, String location) {
-        this.ticketId = ticketId;
+    public Ticket(Integer categoryId, Expert expert, Customer customer, boolean resolved, String description, String location) {
         this.createdDate = Calendar.getInstance().getTime();
         this.categoryId = categoryId;
         this.expert = expert;
+        this.customer = customer;
         this.resolved = resolved;
         this.description = description;
         this.location = location;
     }
+
     public Ticket(){}
 
     public Long getTicketId() {
@@ -59,15 +64,6 @@ public class Ticket {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
-    }
-
-
-    public Integer getCategory() {
-        return categoryId;
-    }
-
-    public void setCategory(Integer categoryId) {
-        this.categoryId = categoryId;
     }
 
     public Expert getExpert() {
@@ -100,6 +96,22 @@ public class Ticket {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,15 +24,14 @@ public class Customer {
     @Column(nullable = false, name = "preferEmail")
     private boolean preferEmail;//prefer email notification or text message
 
-    @OneToMany(mappedBy = "category")//customer to ticket - one to many
+    @OneToMany(mappedBy = "customer")//customer to ticket - one to many
     private List<Ticket> tickets;
 
-    public Customer(Long customerId, String phoneNumber, String email, boolean preferEmail, List<Ticket> tickets) {
-        this.customerId = customerId;
+    public Customer(String phoneNumber, String email, boolean preferEmail) {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.preferEmail = preferEmail;
-        this.tickets = tickets;
+        this.tickets = new ArrayList<>();
     }
 
     public Customer(){}
@@ -72,8 +72,18 @@ public class Customer {
         return tickets;
     }
 
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public void addTicket(Ticket ticket){
+        if(ticket != null){
+            tickets.add(ticket);
+            ticket.setCustomer(this);
+        }
+    }
+
+    public void removeTicket(Ticket ticket){
+        if(ticket != null){
+            tickets.remove(ticket);
+            ticket.setCustomer(null);
+        }
     }
 
     @Override
