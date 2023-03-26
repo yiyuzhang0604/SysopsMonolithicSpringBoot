@@ -1,6 +1,7 @@
 package com.sysops.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,13 +30,16 @@ public class Expert {
     @OneToMany(mappedBy = "expert")//expert to ticket - one to many
     private List<Ticket> tickets;
 
-    public Expert(Long expertId, String phoneNumber, String location, Integer categoryId, List<Ticket> tickets) {
-        this.expertId = expertId;
+    @OneToMany(mappedBy = "expert")//expert to ticket - one to many
+    private List<Article> articles;
+
+    public Expert(String phoneNumber, String location,Integer categoryId) {
         this.phoneNumber = phoneNumber;
         this.location = location;
         this.isAvailable = true;
         this.categoryId = categoryId;
-        this.tickets = tickets;
+        this.tickets = new ArrayList<>();
+        this.articles = new ArrayList<>();
     }
 
     public Expert(){}
@@ -76,7 +80,7 @@ public class Expert {
         return categoryId;
     }
 
-    public void setCategory(Integer categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -84,8 +88,36 @@ public class Expert {
         return tickets;
     }
 
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void addArticle(Article article){
+        if(article != null){
+            articles.add(article);
+            article.setExpert(this);
+        }
+    }
+
+    public void removeArticle(Article article){
+        if(article != null){
+            articles.remove(article);
+            article.setExpert(null);
+        }
+    }
+
+    public void addTicket(Ticket ticket){
+        if(ticket != null){
+            tickets.add(ticket);
+            ticket.setExpert(this);
+        }
+    }
+
+    public void removeTicket(Ticket ticket){
+        if(ticket != null){
+            tickets.remove(ticket);
+            ticket.setExpert(null);
+        }
     }
 
     @Override

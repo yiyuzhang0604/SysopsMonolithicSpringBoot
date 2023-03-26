@@ -12,7 +12,7 @@ public class Article {
     private Long articleId;
 
     @ManyToOne//article to expert - many to one
-    @JoinColumn(name = "expert_expertId")
+    @JoinColumn(name = "expert_id", nullable = false)
     private Expert expert;
 
     @Column(nullable = false, name = "title")
@@ -32,8 +32,7 @@ public class Article {
     @Column(name = "createdDate")
     private Date createdDate;
 
-    public Article(Long articleId, Expert expert, String title, String content, Integer categoryId) {
-        this.articleId = articleId;
+    public Article(Expert expert, String title, String content, Integer categoryId) {
         this.expert = expert;
         this.title = title;
         this.content = content;
@@ -79,7 +78,7 @@ public class Article {
         return categoryId;
     }
 
-    public void setCategory(int categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
