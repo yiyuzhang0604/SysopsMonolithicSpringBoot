@@ -1,9 +1,13 @@
 package com.sysops.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Calendar;
 
+/**
+ * Represents an article in the knowledge base.
+ */
 @Entity
 @Table(name = "article")
 public class Article {
@@ -11,36 +15,35 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long articleId;
 
-    @ManyToOne//article to expert - many to one
+    @ManyToOne
     @JoinColumn(name = "expert_id", nullable = false)
-    private Expert expert;
+    private Expert author;
 
-    @Column(nullable = false, name = "title")
+    @NotNull
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "content")
+    @NotNull
+    @Column(name = "content", nullable = false)
     private String content;
 
-//    @ManyToOne//expert to category - many to one
-//    @JoinColumn(name = "category_categoryId")
-//    private Category category;
-
-    @Column(name = "categoryId")
+    @NotNull
+    @Column(name = "categoryId", nullable = false)
     private Integer categoryId;
 
-    //keyword?
-    @Column(name = "createdDate")
+    @Column(name = "createdDate", nullable = false)
     private Date createdDate;
 
-    public Article(Expert expert, String title, String content, Integer categoryId) {
-        this.expert = expert;
+    public Article(Expert author, String title, String content, Integer categoryId) {
+        this.author = author;
         this.title = title;
         this.content = content;
         this.categoryId = categoryId;
         this.createdDate = Calendar.getInstance().getTime();
     }
 
-    public Article(){}
+    public Article() {
+    }
 
     public Long getArticleId() {
         return articleId;
@@ -50,12 +53,12 @@ public class Article {
         this.articleId = articleId;
     }
 
-    public Expert getExpert() {
-        return expert;
+    public Expert getAuthor() {
+        return author;
     }
 
-    public void setExpert(Expert expert) {
-        this.expert = expert;
+    public void setAuthor(Expert author) {
+        this.author = author;
     }
 
     public String getTitle() {
@@ -86,15 +89,11 @@ public class Article {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
     @Override
     public String toString() {
         return "Article{" +
                 "articleId=" + articleId +
-                ", expert=" + expert +
+                ", expert=" + author +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", categoryId=" + categoryId +
