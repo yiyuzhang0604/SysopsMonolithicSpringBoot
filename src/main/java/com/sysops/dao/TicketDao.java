@@ -1,7 +1,18 @@
 package com.sysops.dao;
 
 import com.sysops.entity.Ticket;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TicketDao extends CrudRepository<Ticket, Long> {
+import java.util.List;
+
+public interface TicketDao extends JpaRepository<Ticket, Long> {
+
+    // create ticket
+    Ticket save(Ticket ticket);
+
+    // find unassigned tickets
+    List<Ticket> findTicketsByStatus(Ticket.TicketStatus status);
+
+    // find ticket by id
+    Ticket findTicketByTicketId(Long id);
 }

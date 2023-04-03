@@ -10,4 +10,8 @@ import java.util.List;
 public interface ExpertDao extends CrudRepository<Expert, Long> {
     @Query("SELECT e FROM Expert e WHERE e.location = :location AND e.categoryId = :categoryId and e.isAvailable = true")
     List<Expert> findMatchedExperts(@Param("categoryId") int categoryId, @Param("location") String location);
+
+    // find expert by location and isAvailable
+    @Query("SELECT e FROM Expert e WHERE e.location = :location AND e.isAvailable = true")
+    List<Expert> findAvailableExperts(@Param("location") String location);
 }
