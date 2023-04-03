@@ -24,7 +24,7 @@ public class Expert {
     private String location;
 
     @Column(nullable = false, name = "isAvailable")
-    private Boolean isAvailable;
+    private boolean isAvailable;
 
     @ElementCollection
     private List<Integer> categories;

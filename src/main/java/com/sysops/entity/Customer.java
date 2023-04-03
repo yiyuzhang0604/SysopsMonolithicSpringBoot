@@ -26,7 +26,7 @@ public class Customer {
 
     @NotNull
     @Column(nullable = false, name = "preferEmail")
-    private Boolean preferEmail;//prefer email notification or text message
+    private boolean preferEmail;//prefer email notification or text message
 
     @OneToMany(mappedBy = "customer")//customer to ticket - one to many
     private List<Ticket> tickets;
