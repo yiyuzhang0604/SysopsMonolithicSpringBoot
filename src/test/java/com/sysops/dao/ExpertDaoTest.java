@@ -46,4 +46,23 @@ public class ExpertDaoTest {
         assertThat(res).hasSize(2);
         assertThat(res).doesNotContain(expert2, expert3, expert4, expert5);
     }
+
+    @Test
+    public void findAvailableExperts() {
+        // generate 5 experts
+        Expert expert1 = new Expert("111-111-1111", "Seattle");
+        Expert expert2 = new Expert("222-222-2222", "Seattle");
+        Expert expert3 = new Expert("333-333-3333", "Portland");
+        Expert expert4 = new Expert("444-444-4444", "Seattle");
+        expert4.setAvailable(false);
+        Expert expert5 = new Expert("555-555-5555", "Portland");
+        expert5.setAvailable(false);
+        expertDao.save(expert1);
+        expertDao.save(expert2);
+        expertDao.save(expert3);
+        expertDao.save(expert4);
+        expertDao.save(expert5);
+        List<Expert> res = expertDao.findAvailableExperts("Portland");
+        assertThat(res).containsOnly(expert3);
+    }
 }

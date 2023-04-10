@@ -29,10 +29,10 @@ public class Expert {
     @ElementCollection
     private List<Integer> categories;
 
-    @OneToMany(mappedBy = "expert")//expert to ticket - one to many
+    @OneToMany(mappedBy = "expert")
     private List<Ticket> tickets;
 
-    @OneToMany(mappedBy = "author")//expert to ticket - one to many
+    @OneToMany(mappedBy = "author")
     private List<Article> articles;
 
     public Expert(String phoneNumber, String location) {
