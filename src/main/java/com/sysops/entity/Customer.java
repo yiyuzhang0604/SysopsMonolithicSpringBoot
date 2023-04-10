@@ -1,12 +1,13 @@
 package com.sysops.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a customer who registers for the Sysops Squad Service.
+ */
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -15,12 +16,15 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long customerId;
 
+    @NotNull
     @Column(nullable = false, name = "phoneNumber")
     private String phoneNumber;
 
+    @NotNull
     @Column(nullable = false, name = "email")
     private String email;
 
+    @NotNull
     @Column(nullable = false, name = "preferEmail")
     private boolean preferEmail;//prefer email notification or text message
 
@@ -34,7 +38,8 @@ public class Customer {
         this.tickets = new ArrayList<>();
     }
 
-    public Customer(){}
+    public Customer() {
+    }
 
     public Long getCustomerId() {
         return customerId;
@@ -72,15 +77,15 @@ public class Customer {
         return tickets;
     }
 
-    public void addTicket(Ticket ticket){
-        if(ticket != null){
+    public void addTicket(Ticket ticket) {
+        if (ticket != null) {
             tickets.add(ticket);
             ticket.setCustomer(this);
         }
     }
 
-    public void removeTicket(Ticket ticket){
-        if(ticket != null){
+    public void removeTicket(Ticket ticket) {
+        if (ticket != null) {
             tickets.remove(ticket);
             ticket.setCustomer(null);
         }

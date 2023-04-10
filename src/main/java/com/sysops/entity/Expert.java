@@ -1,9 +1,13 @@
 package com.sysops.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a Sysops Squad Expert.
+ */
 @Entity
 @Table(name = "expert")
 public class Expert {
@@ -11,38 +15,37 @@ public class Expert {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long expertId;
 
+    @NotNull
     @Column(nullable = false, name = "phoneNumber")
     private String phoneNumber;
 
+    @NotNull
     @Column(nullable = false, name = "location")
     private String location;
 
     @Column(nullable = false, name = "isAvailable")
     private boolean isAvailable;
 
-//    @ManyToOne//expert to category - many to one
-//    @JoinColumn(name = "category_categoryId")
-//    private Category category;
+    @ElementCollection
+    private List<Integer> categories;
 
-    @Column
-    private Integer categoryId;
-
-    @OneToMany(mappedBy = "expert")//expert to ticket - one to many
+    @OneToMany(mappedBy = "expert")
     private List<Ticket> tickets;
 
-    @OneToMany(mappedBy = "expert")//expert to ticket - one to many
+    @OneToMany(mappedBy = "author")
     private List<Article> articles;
 
-    public Expert(String phoneNumber, String location,Integer categoryId) {
+    public Expert(String phoneNumber, String location) {
         this.phoneNumber = phoneNumber;
         this.location = location;
         this.isAvailable = true;
-        this.categoryId = categoryId;
+        this.categories = new ArrayList<>();
         this.tickets = new ArrayList<>();
         this.articles = new ArrayList<>();
     }
 
-    public Expert(){}
+    public Expert() {
+    }
 
     public Long getExpertId() {
         return expertId;
@@ -76,12 +79,8 @@ public class Expert {
         isAvailable = available;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public List<Integer> getCategories() {
+        return categories;
     }
 
     public List<Ticket> getTickets() {
@@ -92,29 +91,35 @@ public class Expert {
         return articles;
     }
 
-    public void addArticle(Article article){
-        if(article != null){
+    public void addArticle(Article article) {
+        if (article != null) {
             articles.add(article);
-            article.setExpert(this);
+            article.setAuthor(this);
         }
     }
 
-    public void removeArticle(Article article){
-        if(article != null){
+    public void addCategory(Integer categoryId) {
+        if (categoryId != null) {
+            categories.add(categoryId);
+        }
+    }
+
+    public void removeArticle(Article article) {
+        if (article != null) {
             articles.remove(article);
-            article.setExpert(null);
+            article.setAuthor(null);
         }
     }
 
-    public void addTicket(Ticket ticket){
-        if(ticket != null){
+    public void addTicket(Ticket ticket) {
+        if (ticket != null) {
             tickets.add(ticket);
             ticket.setExpert(this);
         }
     }
 
-    public void removeTicket(Ticket ticket){
-        if(ticket != null){
+    public void removeTicket(Ticket ticket) {
+        if (ticket != null) {
             tickets.remove(ticket);
             ticket.setExpert(null);
         }
@@ -127,7 +132,7 @@ public class Expert {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", location='" + location + '\'' +
                 ", isAvailable=" + isAvailable +
-                ", categoryId=" + categoryId +
+                ", categories=" + categories +
                 ", tickets=" + tickets +
                 '}';
     }

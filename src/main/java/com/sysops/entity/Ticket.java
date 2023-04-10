@@ -1,9 +1,13 @@
 package com.sysops.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Represents a problem ticket.
+ */
 @Entity
 @Table(name = "ticket")
 public class Ticket {
@@ -16,13 +20,11 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ticketId;
 
-    @Column(name = "createdDate")
+    @Column(name = "createdDate", nullable = false)
     private Date createdDate;
 
-//    @ManyToOne//expert to category - many to one
-//    @JoinColumn(name = "category_categoryId")
-//    private Category category;
-//    @Column(name = "categoryId")
+//    @NotNull
+//    @Column(name = "categoryId", nullable = false)
 //    private Integer categoryId;
 
     @ManyToOne//ticket to expert - many to one
@@ -30,13 +32,14 @@ public class Ticket {
     private Expert expert;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
 
     @Column(name = "description")
     private String description;
 
+    @NotNull
     @Column(nullable = false, name = "location")
     private String location;
 
@@ -53,7 +56,8 @@ public class Ticket {
         this.location = location;
     }
 
-    public Ticket(){}
+    public Ticket() {
+    }
 
     public Long getTicketId() {
         return ticketId;
@@ -65,10 +69,6 @@ public class Ticket {
 
     public Date getCreatedDate() {
         return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public Expert getExpert() {

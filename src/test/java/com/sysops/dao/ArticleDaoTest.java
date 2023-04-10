@@ -5,7 +5,6 @@ import com.sysops.entity.Expert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +24,8 @@ public class ArticleDaoTest {
     private ExpertDao expertDao;
 
     @Test
-    public void findByKeywordTest(){
-        Expert expert = new Expert("123-456-7890", "Seattle", 1);
+    public void findByKeywordTest() {
+        Expert expert = new Expert("123-456-7890", "Seattle");
         Article article1 = new Article(expert, "article1", "This article contains the keyword 'testing'", 1);
         Article article2 = new Article(expert, "article2", "This article contains no keyword", 1);
         expert.addArticle(article1);
