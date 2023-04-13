@@ -1,3 +1,4 @@
+/*
 package com.sysops.controller;
 
 import com.sysops.controller.request.CreateTicketRequest;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class TicketController {
     Logger logger = LoggerFactory.getLogger(TicketController.class);
 
-    TicketService ticketService = new TicketServiceImpl();
+    TicketService ticketService = new TicketS*/
+/**//*
+erviceImpl();
 
     @GetMapping("/ticket")
     public String ticketPage() {
@@ -32,3 +35,4 @@ public class TicketController {
         return ticketService.createTicket(createTicketRequest);
     }
 }
+*/
