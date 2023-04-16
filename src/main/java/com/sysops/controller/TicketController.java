@@ -1,8 +1,6 @@
 package com.sysops.controller;
 
-import com.sysops.controller.request.CreateTicketRequest;
 import com.sysops.entity.Ticket;
-import com.sysops.service.Implementation.TicketServiceImpl;
 import com.sysops.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
