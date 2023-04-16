@@ -6,16 +6,28 @@ import com.sysops.service.Implementation.TicketServiceImpl;
 import com.sysops.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
 
 @Controller
+@RequestMapping("api/ticket")
 public class TicketController {
     Logger logger = LoggerFactory.getLogger(TicketController.class);
 
-    TicketService ticketService = new TicketServiceImpl();
+    TicketService ticketService;
+
+    @Autowired
+    public TicketController(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
 
     @GetMapping("/ticket")
     public String ticketPage() {
@@ -24,11 +36,9 @@ public class TicketController {
         return "ticket";
     }
 
-    // create ticket
     @PostMapping("/createTicket")
-    public String createTicket(@RequestBody CreateTicketRequest createTicketRequest) {
-        logger.info("TicketController.createTicket()");
-
-        return ticketService.createTicket(createTicketRequest);
+    public ResponseEntity<Ticket> createTicket(@Valid @RequestBody Ticket ticket) {
+        Ticket savedTicket = ticketService.createTicket(ticket);
+        return new ResponseEntity<>(savedTicket, HttpStatus.CREATED);
     }
 }
