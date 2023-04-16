@@ -40,3 +40,4 @@ public class TicketController {
         return new ResponseEntity<>(savedTicket, HttpStatus.CREATED);
     }
 }
+
