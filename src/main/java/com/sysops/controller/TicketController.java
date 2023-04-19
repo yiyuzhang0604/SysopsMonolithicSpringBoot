@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 1800)
 @RestController
@@ -49,4 +48,3 @@ public class TicketController {
         return ResponseEntity.ok(new HttpBodyResponse ("Ticket Created: ticketId-" + ticket.getTicketId()));
     }
 }
-\
