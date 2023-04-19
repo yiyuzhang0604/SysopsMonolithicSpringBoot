@@ -1,147 +1,110 @@
-//package com.sysops.service.Implementation;
-//
-//import com.sysops.controller.request.CreateTicketRequest;
-//import com.sysops.dao.CustomerDao;
-//import com.sysops.dao.ExpertDao;
-//import com.sysops.dao.TicketDao;
-//import com.sysops.entity.Customer;
-//import com.sysops.entity.Expert;
-//import com.sysops.entity.Ticket;
-//import org.junit.jupiter.api.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
-//
-//import java.util.Date;
-//import static org.junit.Assert.assertThrows;
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//
-//@SpringBootTest
-//@RunWith(SpringRunner.class)
-//class TicketServiceImplTest {
-//
-//    @Autowired
-//    private TicketServiceImpl ticketService;
-//
-//    @Autowired
-//    private TicketDao ticketDao;
-//
-//    @Autowired
-//    private CustomerDao customerDao;
-//
-//    @Autowired
-//    private ExpertDao expertDao;
-//
-//
-//    @Test
-//    void createTicket() {
-//
-//        Customer customer = new Customer();
-//        customer.setCustomerId(1241241L);
-//        customer.setEmail("dsakfjla@gmail.com");
-//        customer.setPhoneNumber("123123123");
-//        customerDao.save(customer);
-//
-//        // construct the request
-//        CreateTicketRequest createTicketRequest = new CreateTicketRequest();
-//        createTicketRequest.setCreatedDate(new Date());
-//        createTicketRequest.setDescription("test");
-//        createTicketRequest.setLocation("test");
-//        createTicketRequest.setCustomerId(1241241L);
-//        // call the function
-//        String ticketId = ticketService.createTicket(createTicketRequest);
-//
-//        Ticket actualTicket = ticketDao.findTicketByTicketId(Long.parseLong(ticketId));
-//
-//        // assert the ticket
-//        assertEquals(createTicketRequest.getDescription(), actualTicket.getDescription());
-//        assertEquals(createTicketRequest.getCreatedDate(), actualTicket.getCreatedDate());
-//        assertEquals(createTicketRequest.getLocation(), actualTicket.getLocation());
-//    }
-//
-//    @Test
-//    void assignTicket() {
-//        Expert expert1 = new Expert("111-111-1111", "Seattle");
-//        expert1.addCategory(1);
-//        Expert expert2 = new Expert("222-222-2222", "Seattle");
-//        expert2.addCategory(2);
-//        Expert expert3 = new Expert("333-333-3333", "test2141");
-//        expert3.addCategory(1);
-//        Expert expert4 = new Expert("444-444-4444", "Seattle");
-//        expert4.addCategory(1);
-//        expert4.setAvailable(false);
-//        Expert expert5 = new Expert("555-555-5555", "Portland");
-//        expert5.addCategory(2);
-//        expertDao.save(expert1);
-//        expertDao.save(expert2);
-//        expertDao.save(expert3);
-//        expertDao.save(expert4);
-//        expertDao.save(expert5);
-//
-//        CreateTicketRequest createTicketRequest = new CreateTicketRequest();
-//        createTicketRequest.setCreatedDate(new Date());
-//        createTicketRequest.setDescription("test222");
-//        createTicketRequest.setLocation("test2141");
-//        createTicketRequest.setCustomerId(43957L);
-//        // call the function
-//        String ticketId = ticketService.createTicket(createTicketRequest);
-//
-//        ticketService.assignTicket(Long.parseLong(ticketId));
-//
-//        Ticket actualTicket = ticketDao.findTicketByTicketId(Long.parseLong(ticketId));
-//
-//        assertEquals(Ticket.TicketStatus.ASSIGNED, actualTicket.getStatus());
-//    }
-//
-//    @Test
-//    void assignTicket_fail_nonAvailable() {
-//        Expert expert1 = new Expert("111-111-1111", "Seattle");
-//        expert1.addCategory(1);
-//        Expert expert2 = new Expert("222-222-2222", "Seattle");
-//        expert2.addCategory(2);
-//        Expert expert3 = new Expert("333-333-3333", "Seattle");
-//        expert3.addCategory(1);
-//        Expert expert4 = new Expert("444-444-4444", "test2141");
-//        expert4.addCategory(1);
-//        expert4.setAvailable(false);
-//        Expert expert5 = new Expert("555-555-5555", "Portland");
-//        expert5.addCategory(2);
-//        expertDao.save(expert1);
-//        expertDao.save(expert2);
-//        expertDao.save(expert3);
-//        expertDao.save(expert4);
-//        expertDao.save(expert5);
-//
-//        CreateTicketRequest createTicketRequest = new CreateTicketRequest();
-//        createTicketRequest.setCreatedDate(new Date());
-//        createTicketRequest.setDescription("test222");
-//        createTicketRequest.setLocation("test2141");
-//        createTicketRequest.setCustomerId(43957L);
-//        // call the function
-//        String ticketId = ticketService.createTicket(createTicketRequest);
-//
-//        // assert exception will throw
-//        assertThrows(RuntimeException.class, () -> {
-//            ticketService.assignTicket(Long.parseLong(ticketId));
-//        });
-//
-//    }
-//
-//    @Test
-//    void updateTicketStatus() {
-//        CreateTicketRequest createTicketRequest = new CreateTicketRequest();
-//        createTicketRequest.setCreatedDate(new Date());
-//        createTicketRequest.setDescription("test222");
-//        createTicketRequest.setLocation("test2141");
-//        createTicketRequest.setCustomerId(43957L);
-//        // call the function
-//        String ticketId = ticketService.createTicket(createTicketRequest);
-//
-//        ticketService.updateTicketStatus(Long.parseLong(ticketId), Ticket.TicketStatus.IN_PROGRESS);
-//
-//        Ticket actualTicket = ticketDao.findTicketByTicketId(Long.parseLong(ticketId));
-//
-//        assertEquals(Ticket.TicketStatus.IN_PROGRESS, actualTicket.getStatus());
-//    }
-//}
+package com.sysops.service.Implementation;
+
+import com.sysops.dao.TicketDao;
+import com.sysops.entity.Customer;
+import com.sysops.entity.Expert;
+import com.sysops.entity.Ticket;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Collections;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
+
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+class TicketServiceImplTest {
+
+    @Mock
+    private TicketDao ticketDao;
+    @Mock
+    private ExpertServiceImpl expertService;
+    @Captor
+    private ArgumentCaptor<Ticket> ticketCaptor;
+    private TicketServiceImpl ticketServiceSpy;
+
+    @BeforeEach
+    void setUp() {
+        ticketServiceSpy = Mockito.spy(new TicketServiceImpl(ticketDao, expertService));
+    }
+
+
+    @Test
+    public void createTicketTest() {
+        Ticket ticket = new Ticket(1, new Customer("123-456-7890", "email", false), "Description", "Seattle");
+        Expert assignedExpert = mock(Expert.class);
+        Ticket savedTicket = mock(Ticket.class);
+        Ticket savedTicket2 = new Ticket(1, new Customer("123-456-7890", "email", false), "Description", "Seattle");
+        Long ticketId = 1L;
+        Long expertId = 2L;
+
+        when(ticketDao.save(any(Ticket.class))).thenReturn(savedTicket);
+        when(expertService.findMatchExpert(savedTicket)).thenReturn(Collections.singletonList(assignedExpert));
+        when(expertService.getFirstAvailableExpert(anyList())).thenReturn(assignedExpert);
+        when(assignedExpert.getExpertId()).thenReturn(expertId);
+        when(savedTicket.getTicketId()).thenReturn(ticketId);
+        doReturn(savedTicket).when(ticketServiceSpy).assignTicketToExpert(anyLong(), anyLong());
+
+        Ticket result = ticketServiceSpy.createTicket(ticket);
+
+        assertEquals(savedTicket, result);
+        verify(ticketDao, times(1)).save(ticket);
+        verify(expertService, times(1)).findMatchExpert(savedTicket);
+        verify(expertService, times(1)).getFirstAvailableExpert(anyList());
+        verify(assignedExpert, times(1)).getExpertId();
+        verify(savedTicket, times(1)).getTicketId();
+        verify(ticketServiceSpy, times(1)).assignTicketToExpert(anyLong(), anyLong());
+    }
+
+
+    @Test
+    public void assignTicketToExpertTest() {
+        Long expertId = 1L;
+        Long ticketId = 1L;
+
+        Expert expert = new Expert("123-456-7890", "Seattle");
+        Ticket ticket = new Ticket(1, new Customer("111-111-1111", "email@example.com", false), "Description", "Seattle");
+
+        when(ticketDao.findById(ticketId)).thenReturn(Optional.of(ticket));
+        when(expertService.getExpertById(expertId)).thenReturn(expert);
+        when(ticketDao.save(ticket)).thenReturn(ticket);
+
+        Ticket assignedTicket = ticketServiceSpy.assignTicketToExpert(expertId, ticketId);
+
+        assertEquals(expert, assignedTicket.getExpert());
+        assertTrue(expert.getTickets().contains(assignedTicket));
+        verify(ticketDao, times(1)).findById(ticketId);
+        verify(expertService, times(1)).getExpertById(expertId);
+        verify(ticketDao, times(1)).save(ticket);
+        verifyNoMoreInteractions(ticketDao, expertService);
+    }
+
+    @Test
+    public void updateTicketStatusTest() {
+        Long ticketId = 1L;
+        Ticket.TicketStatus newStatus = Ticket.TicketStatus.RESOLVED;
+
+        Ticket ticket = new Ticket(1, new Customer("111-111-1111", "email@example.com", false), "Description", "Seattle");
+        ticket.setStatus(Ticket.TicketStatus.OPEN);
+
+        when(ticketDao.findById(ticketId)).thenReturn(Optional.of(ticket));
+        when(ticketDao.save(any(Ticket.class))).thenReturn(ticket);
+
+        ticketServiceSpy.updateTicketStatus(ticketId, newStatus);
+
+        verify(ticketDao, times(1)).findById(ticketId);
+        verify(ticketDao, times(1)).save(ticketCaptor.capture());
+        verifyNoMoreInteractions(ticketDao);
+
+        Ticket updatedTicket = ticketCaptor.getValue();
+        assertEquals(newStatus, updatedTicket.getStatus());
+    }
+
+}

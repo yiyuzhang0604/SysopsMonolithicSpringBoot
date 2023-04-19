@@ -24,6 +24,4 @@ public interface TicketDao extends JpaRepository<Ticket, Long> {
      * @return list of the tickets with given status
      */
     List<Ticket> findTicketsByStatus(Ticket.TicketStatus status);
-
-    Ticket findTicketByTicketId(Long id);
 }

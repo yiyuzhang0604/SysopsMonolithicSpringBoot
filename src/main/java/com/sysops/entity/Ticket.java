@@ -1,5 +1,7 @@
 package com.sysops.entity;
 
+import lombok.Builder;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Calendar;
@@ -23,9 +25,9 @@ public class Ticket {
     @Column(name = "createdDate", nullable = false)
     private Date createdDate;
 
-//    @NotNull
-//    @Column(name = "categoryId", nullable = false)
-//    private Integer categoryId;
+    @NotNull
+    @Column(name = "categoryId", nullable = false)
+    private Integer categoryId;
 
     @ManyToOne//ticket to expert - many to one
     @JoinColumn(name = "expert_id")
@@ -34,7 +36,6 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-
 
     @Column(name = "description")
     private String description;
@@ -46,10 +47,9 @@ public class Ticket {
     @Column(nullable = false, name = "status")
     private TicketStatus status;
 
-    public Ticket(Expert expert, Customer customer, String description, String location) {
+    public Ticket(Integer categoryId, Customer customer, String description, String location) {
         this.createdDate = Calendar.getInstance().getTime();
-//        this.categoryId = categoryId;
-        this.expert = expert;
+        this.categoryId = categoryId;
         this.customer = customer;
         this.status = TicketStatus.OPEN;
         this.description = description;
@@ -70,10 +70,6 @@ public class Ticket {
 
     public Long getTicketId() {
         return ticketId;
-    }
-
-    public void setTicketId(Long ticketId) {
-        this.ticketId = ticketId;
     }
 
     public Date getCreatedDate() {
@@ -104,9 +100,9 @@ public class Ticket {
         this.location = location;
     }
 
-//    public Integer getCategoryId() {
-//        return categoryId;
-//    }
+    public Integer getCategoryId() {
+        return categoryId;
+    }
 
     public Customer getCustomer() {
         return customer;
@@ -116,9 +112,9 @@ public class Ticket {
         this.customer = customer;
     }
 
-//    public void setCategoryId(Integer categoryId) {
-//        this.categoryId = categoryId;
-//    }
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public TicketStatus getStatus() {
         return status;
@@ -133,7 +129,7 @@ public class Ticket {
         return "Ticket{" +
                 "ticketId=" + ticketId +
                 ", createdDate=" + createdDate +
-//                ", categoryId=" + categoryId +
+                ", categoryId=" + categoryId +
                 ", expert=" + expert +
                 ", description='" + description + '\'' +
                 ", location='" + location + '\'' +

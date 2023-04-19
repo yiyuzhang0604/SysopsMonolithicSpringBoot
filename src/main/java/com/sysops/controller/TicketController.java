@@ -17,10 +17,12 @@ import java.util.Map;
 @CrossOrigin(origins = "*", maxAge = 1800)
 @RestController
 @RequestMapping("/ticket")
+
 public class TicketController {
 
     @Autowired
     CustomerDao customerDao;
+
 
     @Autowired
     TicketDao ticketDao;
@@ -47,3 +49,4 @@ public class TicketController {
         return ResponseEntity.ok(new HttpBodyResponse ("Ticket Created: ticketId-" + ticket.getTicketId()));
     }
 }
+\
