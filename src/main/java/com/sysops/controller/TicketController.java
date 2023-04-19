@@ -1,43 +1,52 @@
 package com.sysops.controller;
 
+import com.sysops.controller.request.CreateTicketRequest;
+import com.sysops.controller.response.HttpBodyResponse;
+import com.sysops.dao.CustomerDao;
+import com.sysops.dao.TicketDao;
+import com.sysops.entity.Customer;
 import com.sysops.entity.Ticket;
-import com.sysops.service.TicketService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
-@Controller
-@RequestMapping("api/ticket")
+@CrossOrigin(origins = "*", maxAge = 1800)
+@RestController
+@RequestMapping("/ticket")
+
 public class TicketController {
-    Logger logger = LoggerFactory.getLogger(TicketController.class);
-
-    TicketService ticketService;
 
     @Autowired
-    public TicketController(TicketService ticketService) {
-        this.ticketService = ticketService;
-    }
+    CustomerDao customerDao;
 
-    @GetMapping("/ticket")
-    public String ticketPage() {
-        logger.info("TicketController.ticketPage()");
-        // TODO: implement ticket page
-        return "ticket";
-    }
 
-    @PostMapping("/createTicket")
-    public ResponseEntity<Ticket> createTicket(@Valid @RequestBody Ticket ticket) {
-        Ticket savedTicket = ticketService.createTicket(ticket);
-        return new ResponseEntity<>(savedTicket, HttpStatus.CREATED);
+    @Autowired
+    TicketDao ticketDao;
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createNewTicket(@Valid @RequestBody CreateTicketRequest createTicketRequest)
+            throws ParseException {
+
+        //get info from request
+        String ticketDescription = createTicketRequest.getDescription();
+        String ticketLocation = createTicketRequest.getLocation();
+        Long ticketCustomerId = Long.valueOf(createTicketRequest.getCustomerId());
+
+        //fetch customer from db
+        Customer customer = customerDao.findCustomerByCustomerId(ticketCustomerId);
+        if (customer == null) {
+            return ResponseEntity.badRequest().body(new HttpBodyResponse("Customer not found"));
+        }
+
+        //create new ticket
+        Ticket ticket = new Ticket(customer, ticketDescription, ticketLocation);
+        ticketDao.save(ticket);
+
+        return ResponseEntity.ok(new HttpBodyResponse ("Ticket Created: ticketId-" + ticket.getTicketId()));
     }
 }
-
+\

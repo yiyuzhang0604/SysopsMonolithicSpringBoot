@@ -56,6 +56,15 @@ public class Ticket {
         this.location = location;
     }
 
+    // for customer 1st created ticket
+    public Ticket(Customer customer, String description, String location) {
+        this.createdDate = Calendar.getInstance().getTime();
+        this.customer = customer;
+        this.status = TicketStatus.OPEN;
+        this.description = description;
+        this.location = location;
+    }
+
     public Ticket() {
     }
 
