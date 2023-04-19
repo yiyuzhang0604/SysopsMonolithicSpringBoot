@@ -1,33 +1,20 @@
 package com.sysops.controller.request;
 
-import java.util.Date;
-
 public class CreateTicketRequest {
 
     private String description;
 
-    private Date createdDate;
-
     private String location;
 
-    private long customerId;
+    private String customerId;
 
     public CreateTicketRequest() {
     }
 
-    public CreateTicketRequest(String description, Date createdDate, String location, long customerId) {
+    public CreateTicketRequest(String description, String location, String customerId) {
         this.description = description;
-        this.createdDate = createdDate;
         this.location = location;
         this.customerId = customerId;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public String getLocation() {
@@ -38,11 +25,11 @@ public class CreateTicketRequest {
         this.location = location;
     }
 
-    public long getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(long customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
