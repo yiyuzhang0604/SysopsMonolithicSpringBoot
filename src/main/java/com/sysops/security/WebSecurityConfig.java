@@ -42,22 +42,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery("select username, authority from authorities where username=?");
     }
 
-//    @Override
-//    protected void configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity.authorizeRequests()
-//                .antMatchers(h2ConsolePath + "/**").permitAll()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/user").hasAnyRole("USER")
-//                .antMatchers("/","static/js").permitAll()
-//                .antMatchers("/ticket/**").permitAll()
-//                .and().formLogin();
-//    }
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeRequests()
+                .antMatchers(h2ConsolePath + "/**").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/user").hasAnyRole("USER")
+                .antMatchers("/","static/js").permitAll()
+                .antMatchers("/ticket/**").permitAll()
+                .and().formLogin();
+    }
 
     // temporary shut down spring security for test purposes
-    @Override
+    /*@Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/**");
-    }
+    }*/
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
